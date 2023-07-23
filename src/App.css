@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+  background-color: white;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Adjust this value to control the spacing between buttons */
+  width: 752px;
+  height: 79px;
+  margin: 0 auto; /* Center the menu horizontally */
+}
+
+.menu-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #333;
+  border-radius: 50%;
+  width: 100px; /* Adjust this value to set the width of each button */
+  height: 100px; /* Adjust this value to set the height of each button */
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.menu-button span {
+  margin-top: 5px;
+}
+
+.menu-button:hover {
+  background-color: #333;
+  color: #fff;
+}
