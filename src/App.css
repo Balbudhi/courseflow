@@ -8,6 +8,7 @@ header {
   height: 79px;
   display: flex;
   margin-top: 10px;
+  user-select: none;
 }
 
 .menu {
@@ -34,7 +35,6 @@ header {
   margin-top: 5px;
   color:rgba(0, 0, 0, 0.8);
   text-align: center;
-  font-family: Rounded Mplus 1c;
   font-size: 11px;
   font-style: normal;
   font-weight: 500;
@@ -114,7 +114,7 @@ header {
 .dropdown {
   margin-top: 10px;
   z-index: 10;
-  width: 400px;
+  width: 300px;
   position: relative;
   display: inline-block;
   user-select: none;
@@ -123,12 +123,35 @@ header {
 .dropdown-input {
   background-color: transparent;
   padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   cursor: pointer;
   border-width: 1px;
   border-color: #d9d9d9;
   border-style: solid;
-  border-radius: 7px;
+  border-radius: 20px;
   color: hsl(0 0% 46% / 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  height: 21.2px;
+}
+
+.dropdown-input span {
+  max-width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.dropdown-icon {
+  margin-left: 5px;
+  height: 8px;
+  opacity: .5;
+  position: absolute;
+  top: calc(50% - 4px);
+  right: 10px;
+  transform: translateY(-50%);
 }
 
 .dropdown-menu {
@@ -138,8 +161,7 @@ header {
   border-width: 1px;
   border-color: #d9d9d9;
   border-style: solid;
-  border-radius: 7px;
-  color: hsl(0 0% 46% / 1);
+  border-radius: 12px;
   opacity: 0;
   max-height: 0;
   overflow: hidden;
@@ -147,22 +169,93 @@ header {
 }
 
 .dropdown-menu-open {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-height: 400px; 
   opacity: 1;
   overflow-y: hidden;
   transition: opacity 0s ease, max-height 0.3s ease 0s;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .dropdown-menu-open:hover {
   overflow-y: auto;
 }
 
-.dropdown-option {
+.dropdown-road {
   padding: 10px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: calc(300px - 20px - 30px);
 }
 
-.dropdown-option span {
+.dropdown-road span, .dropdown-road input {
+  background-color: transparent;
+  border: none;
+  padding: 0;
   margin-right: 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-size: 16px;
+  color: hsl(0 0% 46% / 1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: normal;
+  font-style: normal;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.dropdown-road input {
+  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.dropdown-road input:focus {
+  outline: none;
+}
+
+.dropdown-road div {
+  display: flex;
+}
+
+.dropdown-road button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.dropdown-road button  {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.roadIcons {
+  height: 15px;
+}
+
+.dropdown-add {
+  padding: 10px;
+}
+
+.dropdown-add button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }

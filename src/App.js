@@ -12,6 +12,12 @@ import myroadBG from "./icons/myroad-bg.webp";
 import coursesIcon from "./icons/courses-icon.webp";
 import coursesBG from "./icons/courses-bg.webp";
 import tim from "./icons/tim.webp";
+import downArrow from "./icons/down-arrow.svg";
+import editIcon from "./icons/edit-icon.svg";
+import copyIcon from "./icons/copy-icon.svg";
+import deleteIcon from "./icons/delete-icon.svg";
+import addIcon from "./icons/add-icon.svg";
+
 
 import "./App.css";
 
@@ -38,26 +44,63 @@ const App = () => {
 };
 
 const Dropdown = () => {
-  const [selectedRoad, setSelectedRoad] = useState("Road 1");
+  const [roads, setRoads] = useState(["Road #1", "Road #2", "Road #3", "Road #4", "Road #5"]);
+  const [selectedRoadIndex, setSelectedRoadIndex] = useState(0);
+  const [selectedRoad, setSelectedRoad] = useState(roads[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const dropdownRef = useRef(null);
 
-  const handleRoadChange = (option) => {
-    setSelectedRoad(option);
+  const handleAddRoad = () => {
+    const newIndex = roads.length;
+    const newRoads = [...roads];
+    newRoads.push("");
+    setRoads(newRoads);
+    handleRoadChange(newRoads[newIndex], newIndex);
+    handleEditRoad(newRoads[newIndex], newIndex)
+    setIsDropdownOpen(true);
+  }
+
+  const handleRoadChange = (road, index) => {
+    setSelectedRoad(road);
+    setSelectedRoadIndex(index);
     setIsDropdownOpen(false);
   };
 
-  const handleEditRoad = (option) => {
-    // Handle edit option logic here
+  const handleEditRoad = (road, index) => {
+    setIsEditing(true);
+    const newRoads = [...roads];
+    newRoads[index] = road;
+    setRoads(newRoads);
+    setSelectedRoad(road);
+    setSelectedRoadIndex(index);
+    handleRoadChange(road, index);
+    setIsDropdownOpen(true);
   };
 
-  const handleCopyRoad = (option) => {
-    // Handle copy option logic here
+  const handleDeleteRoad = (index) => {
+    const newRoads = [...roads];
+    newRoads.splice(index, 1);
+    setRoads(newRoads);
+    const newIndex = Math.max(0, index-1);
+    handleRoadChange(newRoads[newIndex], newIndex);
+    setIsDropdownOpen(true);
+  };
+
+  const handleCopyRoad = (road, index) => {
+    const newRoads = [...roads];
+    newRoads.splice(index, 0, road);
+    setRoads(newRoads);
+    handleRoadChange(newRoads[index+1], index+1);
+    setIsDropdownOpen(true);
   };
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsDropdownOpen(false);
+      if (!event.target.classList.contains("delete-button")) { // Check if handleDeleteRoad is being called
+        setIsDropdownOpen(false);
+        setIsEditing(false);
+      }
     }
   };
 
@@ -71,27 +114,69 @@ const Dropdown = () => {
   return (
     <div className="dropdown" ref={dropdownRef}>
       <div className="dropdown-input" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-        {selectedRoad}
+        <span>{selectedRoad}</span>
+        <img className="dropdown-icon" src={downArrow} alt="Down Arrow" />
       </div>
       <div className={`dropdown-menu ${isDropdownOpen ? "dropdown-menu-open" : ""}`}>
-        <div className="dropdown-option">
-          <span onClick={() => handleRoadChange("Road 1")}>Road 1</span>
-          <button onClick={() => handleEditRoad("Road 1")}>Edit</button>
-          <button onClick={() => handleCopyRoad("Road 1")}>Copy</button>
-        </div>
-        <div className="dropdown-option">
-          <span onClick={() => handleRoadChange("Road 2")}>Road 2</span>
-          <button onClick={() => handleEditRoad("Road 2")}>Edit</button>
-          <button onClick={() => handleCopyRoad("Road 2")}>Copy</button>
-        </div>
-        <div className="dropdown-option">
-          <span onClick={() => handleRoadChange("Road 3")}>Road 3</span>
-          <button onClick={() => handleEditRoad("Road 3")}>Edit</button>
-          <button onClick={() => handleCopyRoad("Road 3")}>Copy</button>
+        <DropdownRoads
+          roads={roads}
+          handleRoadChange={handleRoadChange}
+          handleEditRoad={handleEditRoad}
+          handleDeleteRoad={handleDeleteRoad}
+          handleCopyRoad={handleCopyRoad}
+          selectedRoadIndex={selectedRoadIndex}
+          selectedRoad={selectedRoad}
+          setSelectedRoad={setSelectedRoad}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          handleAddRoad={handleAddRoad}
+        />
+        <div className="dropdown-add">
+          <button onClick={() => handleAddRoad()}>
+            <img className="roadIcons" src={addIcon} alt="Add" />
+          </button>
         </div>
       </div>
     </div>
   );
+};
+
+// import editIcon from "./icons/edit-icon.svg";
+// import copyIcon from "./icons/copy-icon.svg";
+// import deleteIcon from "./icons/delete-icon.svg";
+// import addIcon from "./icons/add-icon.svg";
+
+const DropdownRoads = ({ roads, handleRoadChange, handleEditRoad, handleDeleteRoad, handleCopyRoad, selectedRoadIndex, selectedRoad, setSelectedRoad, isEditing, setIsEditing }) => {
+  return roads.map((road, index) => (
+    <div className="dropdown-road" key={index}>
+      {isEditing && index === selectedRoadIndex ? (
+        <input
+          type="text"
+          autoFocus
+          value={selectedRoad}
+          onChange={(e) => handleEditRoad(e.target.value, index)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setIsEditing(false);
+            }
+          }}
+        />
+      ) : (
+        <span onClick={() => handleRoadChange(road, index)}>{road}</span>
+      )}
+      <div>
+        <button onClick={() => handleEditRoad(road, index)}>
+          <img className="roadIcons" src={editIcon} alt="Edit" />
+        </button>
+        <button onClick={() => handleCopyRoad(road, index)}>
+          <img className="roadIcons"src={copyIcon} alt="Copy" />
+        </button>
+        <button className="delete-button" onClick={() => handleDeleteRoad(index)}>
+          <img className="roadIcons" src={deleteIcon} alt="Delete" />
+        </button>
+      </div>
+    </div>
+  ));
 };
 
 const NavigationMenu = () => {
