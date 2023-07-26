@@ -248,6 +248,11 @@ header {
 
 .roadIcons {
   height: 15px;
+  opacity: .3;
+}
+
+.roadIcons:hover {
+  opacity: .5;
 }
 
 .dropdown-add {
@@ -258,4 +263,8 @@ header {
   background-color: transparent;
   border: none;
   cursor: pointer;
+}
+
+.dropdown-add button img {
+  height: 21px;
 }
