@@ -141,11 +141,6 @@ const Dropdown = () => {
   );
 };
 
-// import editIcon from "./icons/edit-icon.svg";
-// import copyIcon from "./icons/copy-icon.svg";
-// import deleteIcon from "./icons/delete-icon.svg";
-// import addIcon from "./icons/add-icon.svg";
-
 const DropdownRoads = ({ roads, handleRoadChange, handleEditRoad, handleDeleteRoad, handleCopyRoad, selectedRoadIndex, selectedRoad, setSelectedRoad, isEditing, setIsEditing }) => {
   return roads.map((road, index) => (
     <div className="dropdown-road" key={index}>
@@ -209,7 +204,7 @@ const NavigationMenu = () => {
 
 const CustomNavLink = ({ to, className, children }) => {
   return (
-    <NavLink to={to} className={(navData) => (navData.isActive ? className + " active" : className)}>
+    <NavLink to={to} className={(navData) => (navData.isActive ? className + " active" : className + " passive")}>
       {children}
     </NavLink>
   );
