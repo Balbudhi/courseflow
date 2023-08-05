@@ -1,7 +1,10 @@
-import React from "react";
-
-const MyRoad = () => {
-  return <h1>My Road</h1>;
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-export default MyRoad;
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importDefault(require("react"));
+const MyRoad = () => {
+    return react_1.default.createElement("h1", null, "My Road");
+};
+exports.default = MyRoad;
